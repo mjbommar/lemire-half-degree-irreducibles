@@ -74,9 +74,7 @@ from experiment and conjectural bridge.
     line width=.7pt,text width=4.08cm,minimum height=1.22cm,
     align=left,inner xsep=4.2mm,inner ysep=3mm,font=\sffamily\small},
   frontier/.style={stage,draw=open,fill=open!4,line width=1.15pt},
-  finitebox/.style={draw=finite!85!black,fill=finite!5,rounded corners=2pt,
-    line width=.7pt,text width=4.15cm,minimum height=.72cm,
-    align=center,inner sep=2mm,font=\sffamily\scriptsize},
+  finitebox/.style={stage,draw=finite!85!black,fill=finite!5},
   arr/.style={-{Latex[length=2.1mm,width=1.5mm]},line width=1pt,
     draw=navy,rounded corners=3pt,shorten <=2pt,shorten >=2pt},
   note/.style={font=\sffamily\scriptsize,text=black!55}
@@ -103,8 +101,8 @@ from experiment and conjectural bridge.
 \draw[arr] (s4.west)--(s5.east);
 \draw[arr,draw=open] (s5.west)--(s6.east);
 
-\node[finitebox] (cert) at (-5.25,-2.15)
-  {\textbf{Finite handoff}\\[-1pt]Rabin certificates for $n\leq400$};
+\node[finitebox] (cert) at (-5.25,-2.42)
+  {\stagecard{finite}{BASE}{Finite handoff}{Rabin certificates: $n\leq400$}};
 \draw[draw=finite!85!black,line width=.7pt,densely dotted]
   (cert.north)--(s6.south);
 \end{tikzpicture}
