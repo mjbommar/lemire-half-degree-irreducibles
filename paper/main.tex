@@ -11,6 +11,8 @@
 \definecolor{proved}{HTML}{287A4B}
 \definecolor{finite}{HTML}{9B6A00}
 \definecolor{open}{HTML}{B3261E}
+\definecolor{navy}{HTML}{34517D}
+\definecolor{paperblue}{HTML}{F3F6FB}
 \newtheorem{proposition}{Proposition}
 \newtheorem{lemma}[proposition]{Lemma}
 \newcommand{\F}{\mathbb F}
@@ -62,35 +64,56 @@ from experiment and conjectural bridge.
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-  node distance=3.5mm and 6mm,
-  box/.style={draw,rounded corners,align=center,text width=3.45cm,
-              minimum height=8mm,inner sep=3pt,font=\small},
-  p/.style={box,draw=proved,fill=proved!6},
-  f/.style={box,draw=finite,fill=finite!7},
-  o/.style={box,draw=open,fill=open!6,line width=1.1pt},
-  arr/.style={-{Latex[length=2mm]},thick}
+  x=1cm,y=1cm,
+  stage/.style={draw=navy,fill=paperblue,rounded corners=2.2pt,
+    line width=.7pt,text width=3.72cm,minimum height=1.22cm,
+    align=left,inner xsep=6mm,inner ysep=3mm,font=\sffamily\small},
+  frontier/.style={stage,draw=open,fill=open!4,line width=1.15pt},
+  finitebox/.style={draw=finite!85!black,fill=finite!5,rounded corners=2pt,
+    line width=.7pt,text width=3.45cm,minimum height=.72cm,
+    align=center,inner sep=2mm,font=\sffamily\scriptsize},
+  badge/.style={circle,fill=navy,text=white,inner sep=0pt,
+    minimum size=5.6mm,font=\sffamily\bfseries\scriptsize},
+  redbadge/.style={badge,fill=open},
+  arr/.style={-{Latex[length=2.1mm,width=1.5mm]},line width=1pt,
+    draw=navy,rounded corners=3pt,shorten <=2pt,shorten >=2pt},
+  note/.style={font=\sffamily\scriptsize,text=black!55}
 ]
-\node[p] (shape) {desired shape $\Longleftrightarrow$\\identity ray class};
-\node[p,below=of shape] (mobius) {log derivative + M\"obius:\\prime existence from Mangoldt mass};
-\node[p,below=of mobius] (haar) {exact Haar telescope:\\coarse conductors cancel};
-\node[p,right=of mobius] (energy) {wrapped inverse energy:\\Type I/II bilinear input};
-\node[p,below=of energy] (orders) {exact-order orthogonality:\\low Witt orders paid by Weil};
-\node[o,below=8mm of $(haar)!0.5!(orders)$] (hwo) {high-Witt signed discrepancy\\\textbf{HWO / NSD}};
-\node[p,below=of hwo] (close) {relative trace $\Rightarrow$ mass exceeds\\all proper prime powers};
-\node[f,left=of close] (finite) {Rabin certificates\\for $n\leq400$};
-\node[p,below=of close] (result) {one shaped irreducible\\in every degree};
-\draw[arr] (shape)--(mobius);
-\draw[arr] (mobius)--(haar);
-\draw[arr] (mobius)--(energy);
-\draw[arr] (energy)--(orders);
-\draw[arr] (haar)--(hwo);
-\draw[arr] (orders)--(hwo);
-\draw[arr] (hwo)--(close);
-\draw[arr] (close)--(result);
-\draw[arr] (finite)--(result);
+\node[note,anchor=west] at (-7.7,2.0) {ALGEBRAIC REDUCTION};
+\node[stage] (s1) at (-5.25,1.15)
+  {\textbf{Recast the shape}\\[-1pt]\scriptsize Reciprocal $\Rightarrow$ identity ray class};
+\node[stage] (s2) at (0,1.15)
+  {\textbf{Count prime mass}\\[-1pt]\scriptsize Log derivative + M\"obius};
+\node[stage] (s3) at (5.25,1.15)
+  {\textbf{Decompose exactly}\\[-1pt]\scriptsize Haar split + exact Witt orders};
+\node[badge] at ($(s1.north west)+(0.34,-0.34)$) {1};
+\node[badge] at ($(s2.north west)+(0.34,-0.34)$) {2};
+\node[badge] at ($(s3.north west)+(0.34,-0.34)$) {3};
+
+\node[note,anchor=west] at (-7.7,-.05) {ANALYTIC FRONTIER};
+\node[stage] (s6) at (-5.25,-1.0)
+  {\textbf{Extract the prime}\\[-1pt]\scriptsize Mass beats proper prime powers};
+\node[frontier] (s5) at (0,-1.0)
+  {\textbf{High-Witt cancellation}\\[-1pt]\scriptsize Connected HWO / NSD / REL};
+\node[stage] (s4) at (5.25,-1.0)
+  {\textbf{Pay the known range}\\[-1pt]\scriptsize Weil bounds + wrapped energy};
+\node[badge] at ($(s6.north west)+(0.34,-0.34)$) {6};
+\node[redbadge] at ($(s5.north west)+(0.34,-0.34)$) {5};
+\node[badge] at ($(s4.north west)+(0.34,-0.34)$) {4};
+
+\draw[arr] (s1.east)--(s2.west);
+\draw[arr] (s2.east)--(s3.west);
+\draw[arr] (s3.south)--(s4.north);
+\draw[arr] (s4.west)--(s5.east);
+\draw[arr,draw=open] (s5.west)--(s6.east);
+
+\node[finitebox] (cert) at (-5.25,-2.15)
+  {\textbf{Finite handoff}\quad Rabin certificates for $n\leq400$};
+\draw[draw=finite!85!black,line width=.7pt,densely dotted]
+  (cert.north)--(s6.south);
 \end{tikzpicture}
-\caption{The current dependency graph. Green is proved, gold is finite
-verification, and red is the sole load-bearing open estimate.}
+\caption{The current proof architecture. Stages 1--4 and 6 are proved;
+Stage 5 is the sole load-bearing open estimate. Gold denotes finite verification.}
 \label{fig:roadmap}
 \end{figure}
 
