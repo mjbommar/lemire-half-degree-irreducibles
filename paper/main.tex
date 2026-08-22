@@ -119,7 +119,17 @@ and, for monic $F$, let
 $\langle F\rangle_j=x^{\deg F}F(x^{-1})\pmod{x^{j+1}}$.
 Then $\deg(f-x^n)\leq\lfloor n/2\rfloor$ if and only if
 $\langle f\rangle_\ell=1$. So the conjecture asks whether this ray class
-contains a prime of degree $n$.
+contains a prime of degree $n$. Reversing $f$ gives an equivalent
+arithmetic-progression form: a prime $P$ of degree $n$ with
+$P\equiv1\pmod{x^{\lceil n/2\rceil}}$, i.e.\ Linnik's problem with exponent
+exactly~$2$ for the residue $1$ and the prime-power modulus
+$x^{\lceil n/2\rceil}$. In Witt-vector terms (Katz's splitting
+$\E_j\cong\prod_{k\ \mathrm{odd}\leq j}\mathbb Z/2^{e_k}$,
+$e_k=\lfloor\log_2(j/k)\rfloor+1$), the class of $\alpha\in\F_{2^n}$ is the
+vector of Galois-ring traces
+$\mathrm{Tr}_{\mathrm{GR}(2^{e_k},n)}(\tilde\alpha^{\,k})\bmod 2^{e_k}$,
+$\tilde\alpha$ the Teichm\"uller lift; the identity class is the set of
+$\alpha$ all of whose odd-power traces vanish to these dyadic precisions.
 
 \textbf{2. Count prime powers (\proved).}
 Define
@@ -241,6 +251,33 @@ Step 2 removes the proper powers. Checked Rabin tests cover $n\leq400$
 (\finite). A proof of (HWO) for $\ell\geq200$ and
 $n\in\{2\ell+1,2\ell+2\}$ would prove the conjecture.
 
+\textbf{A second sufficient statement.} Let $K=\ker(\E_\ell\to\E_{a-1})$,
+an elementary abelian group of order $2^{\ell-a+1}$ (since $a>\ell/2$), and
+for a character $\psi$ of $K$ let
+\[
+ A_\psi=\sum_{\substack{F\text{ monic},\ \deg F=n\\ \langle F\rangle_{a-1}=1}}
+ \Lambda(F)\,\psi(\langle F\rangle_\ell)
+\]
+be the prime mass of the cylinder $\{x^n+g:\deg g\leq n-a\}$ twisted by a
+sign pattern of the coefficients of $x^{n-a},\dots,x^{n-\ell}$. Fourier
+inversion on $K$ gives
+$|N_\ell(1)-N_{a-1}(1)/|K||\leq\max_{\psi\neq1}|A_\psi|$, and
+$2^\ell N_{a-1}(1)/|K|=2^{a-1}N_{a-1}(1)$, while
+$B_{\ell,n}\geq2^{2\ell-1}$ because $a-3<\ell\leq2^c$. Hence
+\begin{equation*}\tag{CYL}
+ |A_\psi|<2^{\ell-1}\quad\text{for every }\psi\neq1
+\end{equation*}
+implies (REL). The Weil bound gives only $|A_\psi|\leq(\ell-1)2^{\lceil n/2\rceil}$,
+a factor $4(\ell-1)$ short; the random model predicts
+$|A_\psi|\approx2^{(n-a+1)/2}\sqrt{\ell}$. Exact computation for
+$14\leq\ell\leq24$ at both endpoints finds the root-mean-square of $A_\psi$
+equal to that prediction within $8\%$, (CYL) true from $\ell=16$ ($n$ odd)
+and $\ell=18$ ($n$ even) on, with $\max_\psi|A_\psi|/2^{\ell-1}$ falling to
+$0.09$ and $0.15$ at $\ell=24$, and the same bound true for every one of the
+$2^{a-1}$ translated cylinders from $\ell=20$ on. This is finite evidence,
+not a proof, and it is the smallest statement currently known to close the
+chain.
+
 \textbf{Why the usual bounds fail.}
 Taking absolute values for each character or conductor loses too much.
 Bounds that use only the Fourier support give no saving at all. Cauchy's
@@ -248,7 +285,16 @@ inequality, the tested bent and Kerdock models, and simple Heisenberg lifts
 also fail. Known moment theorems over large finite fields are not uniform in
 this fixed-field, growing-conductor setting. We need a bound that keeps the
 high-order character sums together. Another table of small cases will not
-provide it.
+provide it. Nor can generic invariants of the relevant $L$-functions: for the
+product $P_\psi$ of the $L$-polynomials over a coset of low-conductor twists,
+degree, integrality, the Riemann hypothesis, the functional equation, the
+$2$-adic Newton polygon and all power sums of degree below $n$ are preserved
+by multiplication with powers of $1-2^{(n+1)/2}T^n+2^nT^{2n}$, which drives
+the $n$th power sum to about $0.7$ of its trivial bound; only the specific
+arithmetic of the Hayes characters can supply the saving. On the integer side
+the best single-residue exponent for prime-power moduli is $2.1115$
+(Banks--Shparlinski), and asymptotics at $q^2$ are known only under GRH with a
+pair-correlation hypothesis.
 
 \section*{References}
 \small
@@ -260,6 +306,8 @@ degree $n$ where $\deg p(x)\leq n/2$?'' \emph{MathOverflow} 81717 (2011),
 \emph{Trans. Amer. Math. Soc.} 117 (1965), 101--127.
 \item C. Bagshaw, ``Bilinear Kloosterman sums in function fields,''
 arXiv:2401.10399 (2024).
+\item N. M. Katz, ``Witt vectors and a question of Keating and Rudnick,''
+\emph{Int. Math. Res. Not.} 2013, no. 16, 3613--3638.
 \item M. Bommarito, \emph{Axeyum Lemire proof project: research ledger and
 replayable diagnostics}, 2026, \url{https://github.com/mjbommar/axeyum}.
 \end{enumerate}
