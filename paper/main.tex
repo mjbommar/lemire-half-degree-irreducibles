@@ -253,14 +253,22 @@ Frobenius/B\'ezout irreducibility certificate that an independent checker
 re-verifies (\finite). A proof of (HWO) for $\ell\geq200$ and
 $n\in\{2\ell+1,2\ell+2\}$ would prove the conjecture for all $n$.
 
-\textbf{An unconditional infinite family (\proved).} For every $k\geq0$ the
-cyclotomic polynomial
-$\Phi_{3^{k+1}}(x)=x^{2\cdot3^k}+x^{3^k}+1$ is irreducible over $\F_2$, because
-$2$ is a primitive root modulo $3^{k+1}$; and $\deg(\Phi_{3^{k+1}}-x^n)=3^k=n/2$
-for $n=2\cdot3^k$. So the conjecture holds outright at every
-$n\in\{2,6,18,54,162,\dots\}$. This is the first proven infinite family of
-degrees; it has density zero and only even $n$, so it does not touch the
-open estimate above.
+\textbf{Unconditional infinite families (\proved).} Monomial substitution
+never leaves the window: $f(x^t)-x^{mt}=(f-x^m)(x^t)$, so
+$\deg(f(x^t)-x^{mt})=t\deg(f-x^m)\le\lfloor mt/2\rfloor$ for every $t\ge1$. Hence,
+by the classical criterion (Lidl--Niederreiter, \emph{Finite Fields}, Thm.~3.35):
+if $f$ is an in-window irreducible of degree $m$ and order $e$, and $t\ge2$ has
+every prime factor dividing $e$ but not $(2^m-1)/e$, then $f(x^t)$ is an
+in-window irreducible of degree $mt$, and the conjecture holds at $n=mt$.
+The seed $x^2+x+1$ gives $\Phi_{3^{k+1}}=x^{2\cdot3^k}+x^{3^k}+1$ and $n=2\cdot3^k$;
+the seed $x^3+x+1$ (order $7$) gives the odd degrees $n=3\cdot7^k$; the seed
+$x^4+x+1$ (order $15$) gives $n=4\cdot3^a5^b$. Applied to the certified seeds
+of degree $\le3000$ this reaches $9.3\%$ of the composite $n\le10^5$
+(exact count, two independent engines). Every such family has density zero,
+and no construction of this kind ever produces a prime $n$ or a power of two:
+the construction route reduces the conjecture to prime degrees and stops there.
+The earlier claim in this note that $n=2\cdot3^k$ was the only provable family,
+giving only even $n$, was wrong. None of this touches the open estimate above.
 
 \textbf{A second sufficient statement.} Let $K=\ker(\E_\ell\to\E_{a-1})$,
 an elementary abelian group of order $2^{\ell-a+1}$ (since $a>\ell/2$), and
