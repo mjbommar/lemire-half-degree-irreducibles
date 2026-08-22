@@ -55,7 +55,7 @@ one ray class and then count that class with the polynomial von Mangoldt
 function. Most of the resulting character sum can now be bounded. The part
 we cannot bound is a signed sum over characters of high $2$-power order. We
 state the needed bound and prove that it would finish the argument. Separate
-Rabin tests cover every degree through 400.
+Separate certified tests cover every degree through 3000.
 \end{abstract}
 
 \section{The argument}
@@ -99,12 +99,12 @@ and what is not.
 \draw[arr,draw=open] (s5.west)--(s6.east);
 
 \node[finitebox] (cert) at (-5.25,-2.42)
-  {\stagecard{finite}{CHECK}{Small degrees}{Rabin tests prove $n\leq400$}};
+  {\stagecard{finite}{CHECK}{Small degrees}{Certified for $n\leq3000$}};
 \draw[draw=finite!85!black,line width=.7pt,densely dotted]
   (cert.north)--(s6.south);
 \end{tikzpicture}
 \caption{Steps 1--4 and 6 are proved. Step 5 is open. The gold box records
-the separate computation for $n\leq400$.}
+the separate computation for $n\leq3000$.}
 \label{fig:roadmap}
 \end{figure}
 
@@ -247,9 +247,11 @@ If we prove this bound, the rest follows:
  \Longrightarrow \eqref{eq:mass}
  \Longrightarrow \text{prime in the identity class}.
 \]
-Step 2 removes the proper powers. Checked Rabin tests cover $n\leq400$
-(\finite). A proof of (HWO) for $\ell\geq200$ and
-$n\in\{2\ell+1,2\ell+2\}$ would prove the conjecture.
+Step 2 removes the proper powers. For every degree $n\leq3000$ a
+half-degree irreducible is exhibited and doubly certified---each carries a
+Frobenius/B\'ezout irreducibility certificate that an independent checker
+re-verifies (\finite). A proof of (HWO) for $\ell\geq200$ and
+$n\in\{2\ell+1,2\ell+2\}$ would prove the conjecture for all $n$.
 
 \textbf{A second sufficient statement.} Let $K=\ker(\E_\ell\to\E_{a-1})$,
 an elementary abelian group of order $2^{\ell-a+1}$ (since $a>\ell/2$), and
