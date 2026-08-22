@@ -272,6 +272,26 @@ the construction route reduces the conjecture to prime degrees and stops there.
 The earlier claim in this note that $n=2\cdot3^k$ was the only provable family,
 giving only even $n$, was wrong. None of this touches the open estimate above.
 
+\textbf{What a sieve proves, and cannot (\proved).} Write
+$W_n=\{x^n+g:\deg g\le\lfloor n/2\rfloor\}$, $h=\lfloor n/2\rfloor+1$. For every
+monic $d$ of degree $k\le h$, exactly $2^{h-k}$ elements of $W_n$ are divisible
+by $d$ (reversal makes the condition unitriangular in the cofactor), so the
+window has exact level of distribution $|W_n|=2^h$ with zero remainder, and the
+sifting parameter at the prime level is $s=1+2/n$. The linear sieve therefore
+gives, for $n\ge n_0(\varepsilon)$, an element of $W_n$ all of whose irreducible
+factors have degree $>(\tfrac14-\varepsilon)n$ (at most four factors), and with
+Kuhn weights an element with at most three factors each of degree $>\alpha n$,
+$\alpha<\tfrac16$; Selberg's upper bound is exact here and gives
+$\#\{\text{irreducible in }W_n\}\le(4+o(1))|W_n|/n$. It cannot give a prime:
+for $10\le n\le15$ there is an explicit nonnegative rational population on the
+degree-$n$ monics, zero on every irreducible, with exactly the window's
+divisor data to level $2^h$ (LP duality), so no lower-bound sieve at the
+window's own level proves Lemire; and any sieve certificate at that level
+applies verbatim to every window $\{A+g:\deg g<h\}$, so a sieve proof of Lemire
+would be a proof of Legendre's conjecture for $\F_2[t]$. The missing input is
+the bilinear (Type~II) estimate, which expands in the same Hayes characters
+as (HWO).
+
 \textbf{A second sufficient statement.} Let $K=\ker(\E_\ell\to\E_{a-1})$,
 an elementary abelian group of order $2^{\ell-a+1}$ (since $a>\ell/2$), and
 for a character $\psi$ of $K$ let
