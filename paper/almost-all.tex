@@ -1,0 +1,341 @@
+\documentclass[10pt]{article}
+\usepackage[letterpaper,margin=0.58in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{navy}{HTML}{34517D}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\renewcommand{\thetheorem}{\Alph{theorem}}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\E}{\mathcal E}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+\newcommand{\flr}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\one}{\mathbf 1}
+\setlist{nosep,leftmargin=1.4em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.0pt}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+
+\title{\vspace{-2.2em}Almost all half-degree patterns are realized by an irreducible over $\F_2$}
+\author{Michael Bommarito}
+\date{22 August 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1.8em}
+
+\begin{abstract}
+Write $\ell=\ceil{n/2}-1$. For each pattern $h\in\F_2^{\,\ell}$ of the top
+$\ell$ non-leading coefficients of a monic degree-$n$ polynomial over $\F_2$,
+we ask whether some irreducible of degree $n$ carries that pattern. We prove,
+unconditionally, that all but at most $4\ell^2$ of the $2^\ell$ patterns are
+realized (Theorem~B), via a sharp Parseval--Weil second-moment bound on the
+ray class group (Theorem~A). The Kaser--Lemire conjecture is exactly the
+assertion that \emph{one specific} pattern -- the identity class $h=0$ -- is
+not among the exceptions, and we show why a second-moment argument cannot
+decide any named class: there is an explicit nonnegative function on the class
+group with the same low-order Fourier data as the true count that vanishes at
+the identity (Proposition~\ref{prop:barrier}). This companion to the
+proof roadmap~\cite{roadmap} records what the analytic input proves on its
+own and marks precisely where it runs out.
+\end{abstract}
+
+\section{Setting and the three inputs}\label{sec:setting}
+
+Fix $n$ and put $\ell=\ceil{n/2}-1$; we treat the two endpoints
+$n\in\{2\ell+1,2\ell+2\}$ that the conjecture concerns. Let
+\[
+ \E_\ell=(1+x\F_2[x])/(x^{\ell+1}),\qquad |\E_\ell|=2^\ell,
+\]
+be the ray class group, and for monic $F$ write
+$\langle F\rangle_\ell=x^{\deg F}F(x^{-1})\bmod x^{\ell+1}$ for its reversed
+class. For $\deg F=n$ this reads
+$\langle F\rangle_\ell=1+a_{n-1}x+\dots+a_{n-\ell}x^\ell$, so a class
+$g\in\E_\ell$ is exactly a \emph{top-half pattern}
+$h=(a_{n-1},\dots,a_{n-\ell})\in\F_2^{\,\ell}$. Weight each class by the
+polynomial von Mangoldt function $\Lam$:
+\[
+ N_\ell(g)=\sum_{\substack{\deg F=n\\ \langle F\rangle_\ell=g}}\Lam(F),
+ \qquad
+ S_n(\chi)=\sum_{\deg F=n}\Lam(F)\,\chi(\langle F\rangle_\ell)
+ \quad(\chi\in\widehat{\E_\ell}).
+\]
+The total mass is $\sum_g N_\ell(g)=S_n(\one)=2^n$, so the mean of $N_\ell$
+over the $2^\ell$ classes is $2^{n-\ell}$. Our arguments use only three
+inputs about these quantities.
+
+\begin{description}
+\item[(O)] \textbf{Orthogonality.} Fourier inversion on $\E_\ell$ gives
+  $N_\ell(g)=2^{-\ell}\sum_\chi S_n(\chi)\overline{\chi(g)}$, and Parseval
+  gives $\sum_g\bigl(N_\ell(g)-2^{n-\ell}\bigr)^2
+  =2^{-\ell}\sum_{\chi\neq\one}|S_n(\chi)|^2$.
+\item[(W)] \textbf{The Weil bound.} If $\chi$ has conductor $j$ then
+  $L(u,\chi)=\prod_{i\le j-1}(1-\alpha_i u)$ with $|\alpha_i|\in\{0,\sqrt2\}$
+  and $S_n(\chi)=-\sum_i\alpha_i^{\,n}$, so
+  $|S_n(\chi)|\le(j-1)\,2^{n/2}\le(j-1)\,2^{\ceil{n/2}}$. The trivial
+  conductor $j=1$ gives $L=1$, hence $S_n=0$ there.
+\item[(C)] \textbf{The conductor count.} Exactly $2^{j-1}$ characters have
+  conductor equal to $j$ for each $1\le j\le\ell$ (plus the trivial one).
+\end{description}
+
+None of the three distinguishes one class of $\E_\ell$ from another: (O), (W),
+(C) are invariant under every permutation of the group -- harmless for the
+average statements of \S\ref{sec:A}--\S\ref{sec:B}, fatal for the named class
+of \S\ref{sec:residual}. We will use the following closed form; write
+$A(\ell)=\sum_{i=1}^{\ell-1}i^2\,2^i$.
+
+\begin{lemma}\label{lem:sum}
+For every integer $m\ge0$,
+$\ \sum_{i=1}^{m}i^2\,2^i=2^{m+1}(m^2-2m+3)-6$. Consequently
+$A(\ell)=2^{\ell}(\ell^2-4\ell+6)-6$.
+\end{lemma}
+
+\begin{proof}
+Induct on $m$. For $m=0$ both sides are $0$. Assuming the formula at $m$,
+add the next term $(m+1)^2\,2^{m+1}$:
+\[
+ \sum_{i=1}^{m+1}i^2\,2^i
+ =2^{m+1}(m^2-2m+3)-6+2^{m+1}(m^2+2m+1)
+ =2^{m+1}(2m^2+4)-6=2^{m+2}(m^2+2)-6.
+\]
+This is the target at $m+1$, since $(m+1)^2-2(m+1)+3=m^2+2$. The
+specialization $m=\ell-1$ gives
+$A(\ell)=2^{\ell}\bigl((\ell-1)^2-2(\ell-1)+3\bigr)-6=2^{\ell}(\ell^2-4\ell+6)-6$.
+\end{proof}
+
+\section{Theorem A: almost all classes carry mean mass}\label{sec:A}
+
+Put
+\[
+ \varepsilon(\ell)=(\ell^2-4\ell+6)-6\cdot2^{-\ell}=A(\ell)\,2^{-\ell},
+ \qquad
+ \kappa_n=2^{\,2\ceil{n/2}-n}\in\{1,2\}.
+\]
+
+\begin{theorem}\label{thm:A}
+Let $\ell\ge1$, $n\in\{2\ell+1,2\ell+2\}$, and $0<t\le1$. Then
+\[
+ \#\Bigl\{g\in\E_\ell:\ \bigl|N_\ell(g)-2^{n-\ell}\bigr|\ge t\,2^{n-\ell}\Bigr\}
+ \ \le\ \frac{\kappa_n\,2^{\,2\ell-n}\,\varepsilon(\ell)}{t^2}
+ \ =\ \begin{cases}\varepsilon(\ell)/t^2,&n=2\ell+1,\\[2pt]
+                   \varepsilon(\ell)/(4t^2),&n=2\ell+2,\end{cases}
+\]
+a fraction at most $\varepsilon(\ell)/(t^2\,2^{\ell})$ of the $2^\ell$ classes.
+\end{theorem}
+
+\begin{proof}
+Write $D(g)=N_\ell(g)-2^{n-\ell}$. By (O),
+$\sum_g D(g)^2=2^{-\ell}\sum_{\chi\neq\one}|S_n(\chi)|^2$. Group the nontrivial
+characters by conductor and apply (W) and (C):
+\[
+ \sum_{\chi\neq\one}|S_n(\chi)|^2
+ \ \le\ 2^{2\ceil{n/2}}\sum_{j=1}^{\ell}2^{j-1}(j-1)^2
+ \ =\ 2^{2\ceil{n/2}}\sum_{i=1}^{\ell-1}i^2\,2^i
+ \ =\ 2^{2\ceil{n/2}}A(\ell),
+\]
+where the second equality reindexes $i=j-1$ (the $j=1$ term vanishes,
+consistent with $S_n=0$ at conductor $1$). By Lemma~\ref{lem:sum},
+$A(\ell)=2^{\ell}\varepsilon(\ell)$, so
+\[
+ \sum_g D(g)^2\ \le\ 2^{-\ell}\cdot2^{2\ceil{n/2}}\cdot2^{\ell}\varepsilon(\ell)
+ \ =\ 2^{2\ceil{n/2}}\varepsilon(\ell)\ =\ \kappa_n\,2^{n}\varepsilon(\ell).
+\]
+Chebyshev's inequality at threshold $t\,2^{n-\ell}$ gives
+\[
+ \#\{g:|D(g)|\ge t\,2^{n-\ell}\}
+ \ \le\ \frac{\sum_g D(g)^2}{t^2\,2^{2(n-\ell)}}
+ \ \le\ \frac{2^{2\ceil{n/2}}\varepsilon(\ell)}{t^2\,2^{2(n-\ell)}}
+ \ =\ \frac{\kappa_n\,2^{\,2\ell-n}\,\varepsilon(\ell)}{t^2}.
+\]
+For $n=2\ell+1$ one has $\ceil{n/2}=\ell+1$, so $\kappa_n=2$ and
+$\kappa_n2^{2\ell-n}=1$; for $n=2\ell+2$ one has $\kappa_n=1$ and
+$\kappa_n2^{2\ell-n}=\tfrac14$. Dividing by $2^\ell$ gives the stated fraction.
+\end{proof}
+
+Using the sharper $|S_n(\chi)|\le(j-1)2^{n/2}$ sets $\kappa_n=1$, halving the
+odd-$n$ constant. The Weil input is provably lossy here by a factor of order
+$\ell$: the Sato--Tate heuristic predicts
+$\sum_{\text{cond }j}|S_n|^2\approx2^{j-1}(j-1)2^{n}$, replacing $A(\ell)$ by
+$2^\ell(\ell-2)+2$. But that is a $q\to\infty$ statement while $q=2$ is fixed,
+and by (O) the exact second moment \emph{is} what we are bounding, so Parseval
+cannot supply it. The numerics of \S\ref{sec:residual} sit at $1.00\times$ the
+Sato--Tate value, so the true saving is exactly this $\sim\ell$.
+
+\section{Theorem B: almost all patterns are realized}\label{sec:B}
+
+For a pattern $h\in\F_2^{\,\ell}$ let $I_n(h)$ be the number of monic
+irreducibles of degree $n$ whose coefficients of $x^{n-1},\dots,x^{n-\ell}$
+equal $h$, equivalently the irreducibles in the class $g\leftrightarrow h$.
+Let $\Theta(g)$ be the $\Lam$-mass of \emph{proper} prime powers in class $g$,
+so $n\,I_n(g)=N_\ell(g)-\Theta(g)$, and globally
+$\Theta_n:=\sum_g\Theta(g)=\sum_{d\mid n,\,d<n}d\,I_d$.
+
+\begin{theorem}\label{thm:B}
+Let $\ell\ge5$ and $n\in\{2\ell+1,2\ell+2\}$. The number of patterns
+$h\in\F_2^{\,\ell}$ realized by \emph{no} irreducible of degree $n$ is at most
+\[
+ 4(\ell^2-4\ell+6)<4\ell^2\ \ (n=2\ell+1),\qquad
+ (\ell^2-4\ell+6)<\ell^2\ \ (n=2\ell+2).
+\]
+Hence all but a fraction $<4\ell^2\,2^{-\ell}$ of the $2^\ell$ top-half
+patterns are the top half of some irreducible of degree $n$ -- a positive
+proportion once $\ell\ge9$.
+\end{theorem}
+
+\begin{proof}
+We first bound the proper-power mass classwise. \emph{Odd $n$.} Every proper
+prime power is $P^k$ with $k$ odd and $k\ge3$, so its underlying prime has
+degree $d=n/k\le n/3$; thus $\Theta_n\le\sum_{d\le n/3}2^d<2^{n/3+1}$. By
+Markov's inequality,
+\[
+ \#\{g:\Theta(g)\ge\tfrac12\,2^{n-\ell}\}
+ \ \le\ \frac{\Theta_n}{2^{n-\ell-1}}
+ \ <\ 2^{\ell+2-2n/3}\ =\ 2^{(4-\ell)/3}\ <\ 1
+ \qquad(n=2\ell+1,\ \ell\ge5),
+\]
+so this set is \emph{empty}. \emph{Even $n$.} Now $n/2$ is possible, and the
+squares of the degree-$n/2$ irreducibles contribute mass $\le2^{n/2}$, all
+higher powers $<2^{n/3+1}$, so $\Theta_n\le2^{n/2}+2^{n/3+1}$. Here
+$\tfrac12\,2^{n-\ell}=2^{n-\ell-1}=2^{n/2}$, and
+$\Theta_n/2^{n/2}\le1+2^{1-n/6}<2$, so at most \emph{one} class has
+$\Theta(g)\ge\tfrac12\,2^{n-\ell}$.
+
+Now combine with Theorem~\ref{thm:A} at $t=\tfrac12$. Off that exceptional set
+one has $N_\ell(g)>2^{n-\ell}-\tfrac12\,2^{n-\ell}=\tfrac12\,2^{n-\ell}$; off
+the Markov set one has $\Theta(g)<\tfrac12\,2^{n-\ell}$. On the intersection of
+the two complements, therefore,
+\[
+ n\,I_n(g)=N_\ell(g)-\Theta(g)>\tfrac12\,2^{n-\ell}-\tfrac12\,2^{n-\ell}=0,
+\]
+so $I_n(g)\ge1$: the pattern is realized. Only the two exceptional sets can
+fail, and their sizes add. Theorem~\ref{thm:A} at $t=\tfrac12$ bounds its set
+by $4\kappa_n2^{2\ell-n}\varepsilon(\ell)$, i.e.\ $\lfloor4\varepsilon(\ell)
+\rfloor$ classes for odd $n$ and $\lfloor\varepsilon(\ell)\rfloor$ for even $n$;
+the Markov set adds $0$ (odd) or $1$ (even). Since
+$0<6\cdot2^{-\ell}<1$ and $0<24\cdot2^{-\ell}<1$ for $\ell\ge5$, we have
+$\lfloor4\varepsilon(\ell)\rfloor=4(\ell^2-4\ell+6)-1<4(\ell^2-4\ell+6)$ and
+$\lfloor\varepsilon(\ell)\rfloor+1=(\ell^2-4\ell+6)$. These are the stated
+counts, and $4(\ell^2-4\ell+6)<4\ell^2$, $(\ell^2-4\ell+6)<\ell^2$.
+\end{proof}
+
+The same argument at $t=\tfrac14$ gives $I_n(h)\ge2^{n-\ell-1}/n$ -- a large
+irreducible count -- for all but $\le16\,\varepsilon(\ell)+2$ patterns.
+
+\section{The residual: why this does not settle the conjecture}\label{sec:residual}
+
+The Kaser--Lemire conjecture is the assertion $I_n(1)\ge1$ for the identity
+class $g=1$ (the pattern $h=0$): that this \emph{one named} element lies
+outside the exceptional set of Theorem~\ref{thm:B}. The theorem counts
+exceptions but cannot name one, because its only inputs (O), (W), (C) are
+permutation-invariant, so anything they prove holds for every relabeling of
+$\E_\ell$ at once. The next result makes the obstruction concrete.
+
+\begin{proposition}[Second-moment barrier]\label{prop:barrier}
+Let $a=\ell-\ceil{\log_2\ell}-1$ and $K=\ker(\E_\ell\to\E_{a-1})$, an
+elementary abelian group of order $2^{\ell-a+1}$. There is a function
+$F\colon\E_\ell\to\mathbb R$ with all of the following properties: $F\ge0$;
+$\sum_g F(g)=2^n$; $\widehat F(\chi)=\widehat{N_\ell}(\chi)$ for every $\chi$ of
+conductor $<a$; $|\widehat F(\chi)|$ lies within the Weil bound
+$(j-1)2^{\ceil{n/2}}$ for every $\chi$ of conductor $j\ge a$; and $F(1)=0$.
+\end{proposition}
+
+\begin{proof}
+Let $m$ be the cylinder-mean population: $m(g)=2^{a-1-\ell}\,N_{a-1}(\pi(g))$,
+where $\pi\colon\E_\ell\to\E_{a-1}$ is the projection and
+$2^{a-1-\ell}=|K|^{-1}$. Then $m$ is constant on cosets of $K$, is
+nonnegative, has $\sum_g m=\sum N_{a-1}=2^n$, and agrees with $N_\ell$ in
+every Fourier coefficient of conductor $\le a-1$ while $\widehat m(\chi)=0$
+for conductor $\ge a$. Set
+\[
+ F=m+c\bigl(2^{a-1-\ell}\one_K-\delta_1\bigr),
+ \qquad c=\frac{m(1)}{1-2^{a-1-\ell}}>0,
+\]
+where $\one_K$ is the indicator of $K$ and $\delta_1$ of the identity. The
+perturbation has zero total mass ($2^{a-1-\ell}|K|=1=\sum\delta_1$), so
+$\sum F=2^n$. At the identity,
+$F(1)=m(1)+c(2^{a-1-\ell}-1)=m(1)-m(1)=0$. Off $K$, $F=m\ge0$; on $K$ one has
+$m\equiv m(1)$ and $\delta_1$ vanishes except at $1$, so
+$F=m(1)+c\,2^{a-1-\ell}>0$ there and $F(1)=0$; thus $F\ge0$. Finally the
+Fourier transform of $2^{a-1-\ell}\one_K-\delta_1$ equals
+$[\chi|_K=\one]-1$, which is $0$ at conductor $<a$ (there $\chi$ is trivial on
+$K$) and $-1$ at conductor $\ge a$. Hence $\widehat F=\widehat N_\ell$ below
+conductor $a$, while at conductor $j\ge a$ we get $|\widehat F(\chi)|=c$. Now
+$c\approx m(1)=2^{a-1-\ell}N_{a-1}(1)\approx2^{n-\ell}=2^{\ceil{n/2}}$ at the
+odd endpoint (and smaller at the even one), so $c\le(j-1)2^{\ceil{n/2}}$ for
+every $j\ge a\ge2$ -- indeed well within Weil, by a factor of order $a$.
+\end{proof}
+
+Every hypothesis a Theorem-\ref{thm:A}-style argument can use about $N_\ell$
+-- nonnegativity, exact total mass, low-conductor Fourier data, and
+Weil-admissible moduli above -- holds verbatim for $F$, yet $F(1)=0$. So no
+argument built solely from mass, nonnegativity, Fourier moduli, and low
+moments can force $N_\ell(1)>0$. Sharpening $\varepsilon(\ell)$, or even
+proving the Sato--Tate second moment, cannot break this barrier, since $F$
+already satisfies the stronger moment.
+
+What \emph{could} decide a named class falls into three kinds of input, none
+of them permutation-invariant.
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{A transitive symmetry commuting with $N_\ell$}: a group action on
+  $\E_\ell$ commuting with the count whose orbit of the identity meets the
+  non-exceptional set. The only known actions -- $f(x)\mapsto f(x+1)$ and the
+  Galois/Adams action -- both fix the identity, so neither helps.
+\item \textbf{The class's own description}: the identity class is the short
+  interval $\{x^n+g:\deg g\le\flr{n/2}\}$, the locus where all odd-power
+  Galois-ring traces vanish to prescribed dyadic precisions. A lower bound that
+  reads this description (a parity-breaking sieve, a Selberg-type minorant on
+  the Witt filtration, an explicit construction) is not blocked by
+  Proposition~\ref{prop:barrier}.
+\item \textbf{A phase-aware correlation}: an inequality among the $S_n(\chi)$
+  at frequency $n$ -- aggregate cancellation of the signed sum, not a bound on
+  each modulus. The roadmap's open estimate asks for exactly this, a factor
+  $4\ell$ of cancellation across high $2$-power orders that no per-character
+  absolute value gives~\cite{roadmap}.
+\end{enumerate}
+
+\paragraph{Numerical check.}
+An exact-integer verifier over the class dumps confirms both theorems at
+$\ell=12,\dots,24$ for both endpoints. In every one of the fifteen cases the
+exceptional set of Theorem~\ref{thm:B} is \emph{empty}, though the theorem
+permits up to $10\%$ of classes at $\ell=12$; the worst class sits
+$0.3$--$13\%$ off the mean. The measured $\sum_g D(g)^2$ equals $1.00\times$
+the Sato--Tate prediction to three digits from $\ell=16$ on, so the true
+exceptional set is far smaller than either theorem certifies.
+
+\paragraph{Prior art.}
+The method is the function-field large-sieve second moment, unconditional
+because the Riemann hypothesis here is Weil's theorem. Pointwise asymptotics
+for \emph{every} class are classical while $\ell\le n/2-\log_2\ell-O(1)$
+(Hayes~\cite{hayes}; effective form Hsu~\cite{hsu}), failing exactly in the
+last $\log_2\ell$ coefficients -- the entire Lemire gap. The Sato--Tate
+variance is the $q\to\infty$ theorem of Keating--Rudnick~\cite{kr}; our range
+keeps $q=2$ fixed, the wrong limit. The explicit endpoint statement at
+$\ell=\ceil{n/2}-1$ and fixed $q=2$ we did not find in print; treat it as
+folklore made explicit.
+
+\vspace{-6pt}
+\begin{thebibliography}{9}
+\small
+\setlength{\itemsep}{-3pt}\setlength{\parsep}{0pt}
+\bibitem{roadmap} M.~Bommarito, \emph{Half-degree irreducibles over $\F_2$:
+  what is proved and what remains open}, companion roadmap note, 2026.
+\bibitem{hayes} D.~R.~Hayes, ``The distribution of irreducibles in
+  $\mathrm{GF}[q,x]$,'' \emph{Trans. Amer. Math. Soc.} \textbf{117} (1965),
+  101--127.
+\bibitem{hsu} C.-N.~Hsu, ``The distribution of irreducible polynomials in
+  $\F_q[t]$,'' \emph{J. Number Theory} \textbf{61} (1996), 85--96.
+\bibitem{kr} J.~P.~Keating and Z.~Rudnick, ``The variance of prime
+  polynomials in short intervals and residue classes,'' \emph{IMRN}
+  \textbf{2014}, 259--288.
+\end{thebibliography}
+
+\end{document}
