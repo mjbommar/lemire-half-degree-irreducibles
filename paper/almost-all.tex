@@ -287,8 +287,13 @@ of them permutation-invariant.
 \begin{enumerate}[label=(\arabic*)]
 \item \textbf{A transitive symmetry commuting with $N_\ell$}: a group action on
   $\E_\ell$ commuting with the count whose orbit of the identity meets the
-  non-exceptional set. The only known actions -- $f(x)\mapsto f(x+1)$ and the
-  Galois/Adams action -- both fix the identity, so neither helps.
+  non-exceptional set. None exists: every degree-preserving symmetry lies in
+  $\mathrm{PGL}_2(\F_2)$, and only its Borel subgroup
+  $\{\mathrm{id},\,f(x)\mapsto f(x+1)\}$ descends to $\E_\ell$ commuting with
+  $N_\ell$. Translation is an involution carrying the identity class to
+  $\langle(1+x)^n\rangle_\ell$, and the Galois/Adams action fixes it, so the
+  orbit of the identity has size at most $2<4\ell^2$; the multiplication action
+  is transitive on $\E_\ell$ but shifts the degree. Hence no symmetry helps.
 \item \textbf{The class's own description}: the identity class is the short
   interval $\{x^n+g:\deg g\le\flr{n/2}\}$, the locus where all odd-power
   Galois-ring traces vanish to prescribed dyadic precisions. A lower bound that
