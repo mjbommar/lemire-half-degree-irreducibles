@@ -41,16 +41,16 @@
 \vspace{-1.8em}
 \begin{center}
 \fcolorbox{open}{open!5}{\parbox{0.94\linewidth}{\centering
-\textbf{Status.} This note does not prove the Kaser--Lemire conjecture.
+\textbf{Status.} This note does not prove Lemire's conjecture.
 The estimate shown in red in Figure~\ref{fig:roadmap} is still open.}}
 \end{center}
 \vspace{-0.5em}
 
 \begin{abstract}
-Kaser and Lemire observed that Barrett reduction over $\F_2$ is especially
-cheap when an irreducible polynomial $f$ of degree $n$ satisfies
-$\deg(f-x^n)\leq\lfloor n/2\rfloor$. They conjectured that such a polynomial
-exists in every degree. We translate their condition into a question about
+Barrett reduction over $\F_2$ is especially cheap when an irreducible
+polynomial $f$ of degree $n$ satisfies
+$\deg(f-x^n)\leq\lfloor n/2\rfloor$.  Daniel Lemire asked whether such a
+polynomial exists in every degree. We translate the condition into a question about
 one ray class and then count that class with the polynomial von Mangoldt
 function. Most of the resulting character sum can now be bounded. The part
 we cannot bound is a signed sum over characters of high $2$-power order. We
@@ -212,11 +212,19 @@ is nonempty. The following bound would be enough:
 We can also state the same bound without characters. Put
 $\Delta_{j,s}=2P_{j,s}-P_{j-1,s}$,
 $d_s=\lfloor(j-1)/2^s\rfloor$, and
-$R_{j,s}=2^{d_{s-1}-d_s}$. Then (HWO) is equivalent to
+$R_{j,s}=2^{d_{s-1}-d_s}$.  There are two cases.  If
+$2^{s-1}\nmid j$, (HWO) is equivalent to
 \begin{equation*}\tag{NSD}
- 4\ell\,|R_{j,s}\Delta_{j,s}-\Delta_{j,s-1}|
+  4\ell\,|R_{j,s}\Delta_{j,s}-\Delta_{j,s-1}|
  \leq(R_{j,s}-1)(j-1)2^{\lceil n/2\rceil}.
 \end{equation*}
+If $2^{s-1}\mid j$ but $2^s\nmid j$, the layer is resonant instead, and
+(HWO) is equivalent to the direct sparse-discrepancy bound
+\begin{equation*}\tag{RSD}
+ 4\ell\,|\Delta_{j,s}|\leq(j-1)2^{\lceil n/2\rceil}.
+\end{equation*}
+Thus a Witt-precision comparison only addresses the nonresonant layers.
+The resonant ones occur in the target range (for example $j=200$, $2^s=16$).
 For these orders, $2^s>\ell/(3c)$. The group $2^s\E_j$ therefore has fewer
 than $8\ell^3$ elements. That fact narrows the problem, but it does not solve
 it. At the largest order the group is $\{1\}$, so (NSD) still contains the
@@ -245,8 +253,9 @@ provide it.
 \section*{References}
 \small
 \begin{enumerate}[label={[\arabic*]},leftmargin=1.6em]
-\item O. Kaser and D. Lemire, ``Strongly universal string hashing is fast,''
-\emph{Comput. J.} 57 (2014), 1624--1638; arXiv:1202.4961.
+\item D. Lemire, ``Can we always find such an irreducible polynomial of
+degree $n$ where $\deg p(x)\leq n/2$?'' \emph{MathOverflow} 81717 (2011),
+\url{https://mathoverflow.net/questions/81717}.
 \item D. R. Hayes, ``The distribution of irreducibles in $\mathrm{GF}[q,x]$,''
 \emph{Trans. Amer. Math. Soc.} 117 (1965), 101--127.
 \item C. Bagshaw, ``Bilinear Kloosterman sums in function fields,''
