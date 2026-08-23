@@ -206,6 +206,25 @@ A proof of (HWO) for $\ell\geq200$ and $n\in\{2\ell+1,2\ell+2\}$ proves the
 conjecture for all $n$; every degree $n\leq3000$ carries an exhibited,
 doubly certified half-degree irreducible (\finite).
 
+\textbf{The requirement is a dial, and it is smaller than $4\ell$.} By
+orthogonality $N_\ell(1)>0$ exactly when
+$|\sum_{\chi\neq1}S_n(\chi)|<2^n-2^\ell\Theta$, $\Theta$ the proper-power mass,
+while Weil bounds the left side by $2^{n/2}D(l)$ with
+$D(l)=\sum_{j\le l}(j-1)2^{j-1}=(l-2)2^l+2$. So the whole problem is one
+aggregate saving: if that sum is at most $2^{n/2}D(l)/F$, one gets an
+irreducible with $\deg(f-x^n)\le\lfloor n/2\rfloor+k$ for
+$k=\log_2((\ell-2)/F)+O(1)$. Here $F=1$ is the known unconditional bound
+(Hayes; sharp form Hsu, Cohen, Gao), giving $k=\log_2 n-1+O(1)$, and $k=0$ is
+the conjecture --- so \emph{doubling $F$ buys exactly one coefficient}, and any
+unconditional $F>1$ at $q=2$ would already be new. In this aggregate form the
+requirement at $\ell=200$ is $F>140.007$ ($n$ odd) and $F>99.000$ ($n$ even),
+that is $F>(\ell-2)/\kappa$ with $\kappa=2^{n/2-\ell}$, rather than the
+$4\ell=800$ of (HWO): the chain's extra factor is mostly its use of the weaker
+$B=2^{2\ell}-W$ in place of $2^n-2^\ell\Theta-W$. The aggregate statement also
+dispenses with $a$, $c$, $Q$, $W$ and $B$ altogether and lets one layer
+subsidise another, which the exact data show happening by two orders of
+magnitude --- but it does not change the shape of what must be proved.
+
 \section{Two sufficient statements, and what is measured}
 
 \textbf{(CYL), the smallest known.} Let $K=\ker(\E_\ell\to\E_{a-1})$,
