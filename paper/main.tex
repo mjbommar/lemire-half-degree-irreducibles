@@ -34,7 +34,7 @@
 
 \title{\vspace{-2.2em}Half-degree irreducibles over $\F_2$:\\what is proved and what remains open}
 \author{Michael Bommarito}
-\date{21 August 2026}
+\date{23 August 2026}
 
 \begin{document}
 \maketitle
@@ -55,7 +55,8 @@ one ray class and then count that class with the polynomial von Mangoldt
 function. Most of the resulting character sum can now be bounded. The part
 we cannot bound is a signed sum over characters of high $2$-power order. We
 state the needed bound and prove that it would finish the argument. Separate
-Separate certified tests cover every degree through 3000.
+certified tests cover every degree through 3000. A companion document records
+what has been tried, what is provably blocked, and what might still work.
 \end{abstract}
 
 \section{The argument}
@@ -108,260 +109,175 @@ the separate computation for $n\leq3000$.}
 \label{fig:roadmap}
 \end{figure}
 
-\section{What we can prove}
+\section{The reduction (\proved)}
 
-\textbf{1. Translate the condition (\proved).}
-For $j\geq0$ set
-\[
- \E_j=(1+x\F_2[x])/(x^{j+1}),\qquad |\E_j|=2^j,
-\]
-and, for monic $F$, let
-$\langle F\rangle_j=x^{\deg F}F(x^{-1})\pmod{x^{j+1}}$.
-Then $\deg(f-x^n)\leq\lfloor n/2\rfloor$ if and only if
-$\langle f\rangle_\ell=1$. So the conjecture asks whether this ray class
-contains a prime of degree $n$. Reversing $f$ gives an equivalent
-arithmetic-progression form: a prime $P$ of degree $n$ with
-$P\equiv1\pmod{x^{\lceil n/2\rceil}}$, i.e.\ Linnik's problem with exponent
-exactly~$2$ for the residue $1$ and the prime-power modulus
-$x^{\lceil n/2\rceil}$. In Witt-vector terms (Katz's splitting
-$\E_j\cong\prod_{k\ \mathrm{odd}\leq j}\mathbb Z/2^{e_k}$,
-$e_k=\lfloor\log_2(j/k)\rfloor+1$), the class of $\alpha\in\F_{2^n}$ is the
-vector of Galois-ring traces
-$\mathrm{Tr}_{\mathrm{GR}(2^{e_k},n)}(\tilde\alpha^{\,k})\bmod 2^{e_k}$,
-$\tilde\alpha$ the Teichm\"uller lift; the identity class is the set of
-$\alpha$ all of whose odd-power traces vanish to these dyadic precisions.
+\textbf{1. Translate the condition.} For $j\geq0$ set
+$\E_j=(1+x\F_2[x])/(x^{j+1})$, $|\E_j|=2^j$, and for monic $F$ let
+$\langle F\rangle_j=x^{\deg F}F(x^{-1})\bmod x^{j+1}$. Then
+$\deg(f-x^n)\leq\lfloor n/2\rfloor$ if and only if $\langle f\rangle_\ell=1$:
+the conjecture asks whether one ray class contains a prime of degree $n$.
+Reversing $f$ gives the arithmetic-progression form --- a prime $P$ of degree
+$n$ with $P\equiv1\pmod{x^{\lceil n/2\rceil}}$ --- so this is Linnik's problem
+with exponent exactly $2$ at a prime-power modulus, equivalently Legendre's
+conjecture for $\F_2[t]$. In Witt-vector terms (Katz's splitting
+$\E_j\cong\prod_{k\text{ odd}\leq j}\mathbb Z/2^{e_k}$,
+$e_k=\lfloor\log_2(j/k)\rfloor+1$) the identity class is the locus where all
+odd-power Galois-ring traces vanish to these dyadic precisions.
 
-\textbf{2. Count prime powers (\proved).}
-Define
-\[
- N_j(b)=\sum_{\substack{F\text{ monic},\ \deg F=n\\
-                 \langle F\rangle_j=b}}\Lambda(F).
-\]
-Logarithmic differentiation gives this weighted count exactly. At the odd
-endpoint $n=2\ell+1$,
-$N_\ell(1)=1+nI_n(1)$. At the even endpoint $n=2\ell+2$, odd proper powers
-do not occur in the identity class. A direct count bounds the squares and
-the other even powers. In either case, it is enough to prove
+\textbf{2. Count prime powers.} With
+$N_j(b)=\sum_{\deg F=n,\ \langle F\rangle_j=b}\Lambda(F)$, logarithmic
+differentiation gives this weighted count exactly. At the odd endpoint
+$n=2\ell+1$, $N_\ell(1)=1+nI_n(1)$; at $n=2\ell+2$ odd proper powers do not
+meet the identity class and a direct count bounds the rest. Either way it
+suffices to prove
 \begin{equation}\label{eq:mass}
  N_\ell(1)>2^{n-\ell}-2^\ell.
 \end{equation}
 
-\textbf{3. Split the count by conductor (\proved).}
-Each map $\E_j\to\E_{j-1}$ has two-element fibres. If
-$H_j(b)$ is the difference of the two child populations above $b$, repeated
-binary splitting gives
+\textbf{3. Split by conductor.} Each $\E_j\to\E_{j-1}$ has two-element fibres;
+writing $H_j(b)$ for the difference of the two child populations above $b$,
+repeated binary splitting telescopes to
 \begin{equation}\label{eq:haar}
- 2^\ell N_\ell(e)=2^n+
- \sum_{j=1}^{\ell}\varepsilon_j(e)2^{j-1}H_j(b_j(e)),
- \qquad \varepsilon_j(e)\in\{\pm1\}.
+ 2^\ell N_\ell(e)=2^n+\sum_{j=1}^{\ell}\varepsilon_j(e)2^{j-1}H_j(b_j(e)),
+ \qquad\varepsilon_j(e)\in\{\pm1\},
 \end{equation}
-For primitive characters $X_j$ of conductor $j$,
-\[
- H_j(b)=2^{1-j}\sum_{\chi\in X_j}\overline{\chi(b)}S_n(\chi),
- \quad |H_j(b)|\leq(j-1)2^{\lceil n/2\rceil},
-\]
-The function-field Riemann hypothesis gives the inequality on the right.
-It is strong enough for the small conductors. If we use it separately at
-every conductor, however, the final bound is too large by a factor of order
-$\ell$.
+and for the primitive characters $X_j$ of conductor $j$,
+$H_j(b)=2^{1-j}\sum_{\chi\in X_j}\overline{\chi(b)}S_n(\chi)$ with
+$|H_j(b)|\leq(j-1)2^{\lceil n/2\rceil}$ by the function-field Riemann
+hypothesis. That is strong enough at small conductors; applied separately at
+every conductor it overshoots by a factor of order $\ell$. \emph{The whole
+problem is that factor.}
 
-\textbf{4. Prove the bilinear bound (\proved, but not enough).}
-The needed inverse-energy bound holds in characteristic two, including the
-case where products wrap modulo $x^r$. The proof groups collisions by their
-$x$-adic valuation. A Pad\'e approximation turns each group into a problem
-about factoring polynomials of bounded degree. Lift counts and divisor bounds
-then finish the estimate. This proves the bilinear input used in Bagshaw's
-Type-I/II argument. It does not finish our problem, because applying the
-bound one term at a time destroys the signs in \eqref{eq:haar}.
+\textbf{4. A characteristic-two bilinear bound.} The inverse-energy estimate
+that Type-I/II arguments need does hold in characteristic two, including
+products wrapping modulo $x^r$: group collisions by $x$-adic valuation, turn
+each group into a bounded-degree factorisation problem by a Pad\'e
+approximation, then use lift counts and divisor bounds. It does not finish the
+problem, because applying it one term at a time destroys the signs in
+\eqref{eq:haar}. (The published Type-I/II theorems of this shape assume odd
+characteristic; see \S5.)
 
-\textbf{5. Add the large conductors before taking absolute values (\proved).}
-Let $c=\lceil\log_2\ell\rceil$, $a=\ell-c-1$, and
-\[
- W_{\ell,n}=2^{\lceil n/2\rceil}\sum_{1\leq j<a}(j-1)2^{j-1},
- \quad B_{\ell,n}=2^{2\ell}-W_{\ell,n}>0.
-\]
-For the identity class, these terms telescope:
+\textbf{5. Add the large conductors before taking absolute values.} Let
+$c=\lceil\log_2\ell\rceil$, $a=\ell-c-1$,
+$W_{\ell,n}=2^{\lceil n/2\rceil}\sum_{1\leq j<a}(j-1)2^{j-1}$ and
+$B_{\ell,n}=2^{2\ell}-W_{\ell,n}>0$. For the identity class the terms
+telescope:
 \begin{equation}\label{eq:rel}
  C_{\ell,n}:=\sum_{j=a}^{\ell}2^{j-1}H_j(1)
- =2^\ell N_\ell(1)-2^{a-1}N_{a-1}(1).
+ =2^\ell N_\ell(1)-2^{a-1}N_{a-1}(1),
 \end{equation}
-It would now be enough to prove
-\begin{equation*}\tag{REL}
- C_{\ell,n}>-B_{\ell,n}
-\end{equation*}
-The smaller conductors contribute at least $-W$. With (REL), this gives
+and it is enough to prove $C_{\ell,n}>-B_{\ell,n}$, which we call (REL): the
+small conductors contribute at least $-W$, so (REL) gives
 $2^\ell N_\ell(1)-2^n>-W-B=-2^{2\ell}$, which is \eqref{eq:mass}.
 
-\textbf{6. Split the remaining characters by order (\proved).}
-For $s\geq0$, write
-\[
- \mathcal H_{j,s}=\{\chi:\chi^{2^s}=1\},\quad
- h_{j,s}=2^{j-\lfloor j/2^s\rfloor},\quad
- P_{j,s}=\sum_{g\in2^s\E_j}N_j(g).
-\]
-Finite-group orthogonality gives the sum over characters of conductor $j$
-and exact order $2^s$:
-\[
- T_{j,s}=h_{j,s}P_{j,s}-h_{j,s-1}P_{j,s-1}
- -h_{j-1,s}P_{j-1,s}+h_{j-1,s-1}P_{j-1,s-1}.
-\]
-Let $Q$ be the largest power of two with
-$3Q\lceil\log_2\ell\rceil\leq\ell$. The Weil bound handles every order at
-most $Q$. This leaves $O(\log\log\ell)$ high orders at each conductor. When
-$\ell=200$, it handles 20 of the 67 conductor--order pairs and leaves 47.
+\textbf{6. Split the remaining characters by order.} For $s\geq0$ put
+$h_{j,s}=2^{j-\lfloor j/2^s\rfloor}$ and
+$P_{j,s}=\sum_{g\in2^s\E_j}N_j(g)$; orthogonality gives the sum over
+characters of conductor $j$ and exact order $2^s$ as
+$T_{j,s}=h_{j,s}P_{j,s}-h_{j,s-1}P_{j,s-1}-h_{j-1,s}P_{j-1,s}
++h_{j-1,s-1}P_{j-1,s-1}$.
+With $Q$ the largest power of two such that
+$3Q\lceil\log_2\ell\rceil\leq\ell$, the Weil bound handles every order at most
+$Q$, leaving $O(\log\log\ell)$ high orders per conductor --- at $\ell=200$, 47
+of the 67 conductor--order pairs.
 
 \section{What remains open}
 
-\textbf{7. Bound the high orders (\openstatus).}
-Suppose $a\leq j\leq\ell$, $2^s>Q$, and the corresponding set of characters
-is nonempty. The following bound would be enough:
+\textbf{7. Bound the high orders (\openstatus).} For $a\leq j\leq\ell$ and
+$2^s>Q$ with the corresponding character set nonempty, the following would be
+enough:
 \begin{equation*}\tag{HWO}
- 4\ell\,|T_{j,s}(n)|\leq
- \#X_{j,s}(j-1)2^{\lceil n/2\rceil}.
+ 4\ell\,|T_{j,s}(n)|\leq\#X_{j,s}(j-1)2^{\lceil n/2\rceil}.
 \end{equation*}
-We can also state the same bound without characters. Put
-$\Delta_{j,s}=2P_{j,s}-P_{j-1,s}$,
-$d_s=\lfloor(j-1)/2^s\rfloor$, and
-$R_{j,s}=2^{d_{s-1}-d_s}$.  There are two cases.  If
-$2^{s-1}\nmid j$, (HWO) is equivalent to
-\begin{equation*}\tag{NSD}
-  4\ell\,|R_{j,s}\Delta_{j,s}-\Delta_{j,s-1}|
- \leq(R_{j,s}-1)(j-1)2^{\lceil n/2\rceil}.
-\end{equation*}
-If $2^{s-1}\mid j$ but $2^s\nmid j$, the layer is resonant instead, and
-(HWO) is equivalent to the direct sparse-discrepancy bound
-\begin{equation*}\tag{RSD}
- 4\ell\,|\Delta_{j,s}|\leq(j-1)2^{\lceil n/2\rceil}.
-\end{equation*}
-Thus a Witt-precision comparison only addresses the nonresonant layers.
-The resonant ones occur in the target range (for example $j=200$, $2^s=16$).
-For these orders, $2^s>\ell/(3c)$. The group $2^s\E_j$ therefore has fewer
-than $8\ell^3$ elements. That fact narrows the problem, but it does not solve
-it. At the largest order the group is $\{1\}$, so (NSD) still contains the
-original identity-class term.
-
-If we prove this bound, the rest follows:
+Equivalently, without characters: with $\Delta_{j,s}=2P_{j,s}-P_{j-1,s}$,
+$d_s=\lfloor(j-1)/2^s\rfloor$ and $R_{j,s}=2^{d_{s-1}-d_s}$, (HWO) is
+$4\ell|R_{j,s}\Delta_{j,s}-\Delta_{j,s-1}|\leq(R_{j,s}-1)(j-1)2^{\lceil
+n/2\rceil}$ when $2^{s-1}\nmid j$, and the direct sparse-discrepancy bound
+$4\ell|\Delta_{j,s}|\leq(j-1)2^{\lceil n/2\rceil}$ when $2^{s-1}\mid j$ but
+$2^s\nmid j$. So a Witt-precision comparison addresses only the nonresonant
+layers, and resonant ones occur in the target range ($j=200$, $2^s=16$).
+Then
 \[
- \boxed{\text{HWO (or another proof of REL)}}
- \Longrightarrow \text{REL}
- \Longrightarrow \eqref{eq:mass}
- \Longrightarrow \text{prime in the identity class}.
+ \boxed{\text{(HWO), or another proof of (REL)}}
+ \Longrightarrow\text{(REL)}\Longrightarrow\eqref{eq:mass}
+ \Longrightarrow\text{a prime in the identity class}.
 \]
-Step 2 removes the proper powers. For every degree $n\leq3000$ a
-half-degree irreducible is exhibited and doubly certified---each carries a
-Frobenius/B\'ezout irreducibility certificate that an independent checker
-re-verifies (\finite). A proof of (HWO) for $\ell\geq200$ and
-$n\in\{2\ell+1,2\ell+2\}$ would prove the conjecture for all $n$.
+A proof of (HWO) for $\ell\geq200$ and $n\in\{2\ell+1,2\ell+2\}$ proves the
+conjecture for all $n$; every degree $n\leq3000$ carries an exhibited,
+doubly certified half-degree irreducible (\finite).
 
-\textbf{Unconditional infinite families (\proved).} Monomial substitution
-never leaves the window: $f(x^t)-x^{mt}=(f-x^m)(x^t)$, so
-$\deg(f(x^t)-x^{mt})=t\deg(f-x^m)\le\lfloor mt/2\rfloor$ for every $t\ge1$. Hence,
-by the classical criterion (Lidl--Niederreiter, \emph{Finite Fields}, Thm.~3.35):
-if $f$ is an in-window irreducible of degree $m$ and order $e$, and $t\ge2$ has
-every prime factor dividing $e$ but not $(2^m-1)/e$, then $f(x^t)$ is an
-in-window irreducible of degree $mt$, and the conjecture holds at $n=mt$.
-The seed $x^2+x+1$ gives $\Phi_{3^{k+1}}=x^{2\cdot3^k}+x^{3^k}+1$ and $n=2\cdot3^k$
-(already noted by E.~Je\v{r}\'abek on MathOverflow, Nov.~2011, on the question where
-Lemire first posed the conjecture);
-the seed $x^3+x+1$ (order $7$) gives the odd degrees $n=3\cdot7^k$; the seed
-$x^4+x+1$ (order $15$) gives $n=4\cdot3^a5^b$. Applied to the certified seeds
-of degree $\le3000$ this reaches $9.3\%$ of the composite $n\le10^5$
-(exact count, two independent engines). Every such family has density zero,
-and no construction of this kind ever produces a prime $n$ or a power of two:
-the construction route reduces the conjecture to prime degrees and stops there.
-The earlier claim in this note that $n=2\cdot3^k$ was the only provable family,
-giving only even $n$, was wrong. None of this touches the open estimate above.
+\section{Two sufficient statements, and what is measured}
 
-\textbf{What a sieve proves, and cannot (\proved).} Write
-$W_n=\{x^n+g:\deg g\le\lfloor n/2\rfloor\}$, $h=\lfloor n/2\rfloor+1$. For every
-monic $d$ of degree $k\le h$, exactly $2^{h-k}$ elements of $W_n$ are divisible
-by $d$ (reversal makes the condition unitriangular in the cofactor), so the
-window has exact level of distribution $|W_n|=2^h$ with zero remainder, and the
-sifting parameter at the prime level is $s=1+2/n$. The linear sieve therefore
-gives, for $n\ge n_0(\varepsilon)$, an element of $W_n$ all of whose irreducible
-factors have degree $>(\tfrac14-\varepsilon)n$ (at most four factors), and with
-Kuhn weights an element with at most three factors each of degree $>\alpha n$,
-$\alpha<\tfrac16$; Selberg's upper bound is exact here and gives
-$\#\{\text{irreducible in }W_n\}\le(4+o(1))|W_n|/n$. It cannot give a prime:
-for $10\le n\le15$ there is an explicit nonnegative rational population on the
-degree-$n$ monics, zero on every irreducible, with exactly the window's
-divisor data to level $2^h$ (LP duality), so no lower-bound sieve at the
-window's own level proves Lemire; and any sieve certificate at that level
-applies verbatim to every window $\{A+g:\deg g<h\}$, so a sieve proof of Lemire
-would be a proof of Legendre's conjecture for $\F_2[t]$. The missing input is
-the bilinear (Type~II) estimate, which expands in the same Hayes characters
-as (HWO).
+\textbf{(CYL), the smallest known.} Let $K=\ker(\E_\ell\to\E_{a-1})$,
+elementary abelian of order $2^{\ell-a+1}$, and for a character $\psi$ of $K$
+let $A_\psi=\sum_{\deg F=n,\ \langle F\rangle_{a-1}=1}\Lambda(F)\psi(\langle
+F\rangle_\ell)$ be the prime mass of a cylinder twisted by a sign pattern of
+the coefficients of $x^{n-a},\dots,x^{n-\ell}$. Fourier inversion on $K$ and
+$B_{\ell,n}\geq2^{2\ell-1}$ give: $|A_\psi|<2^{\ell-1}$ for every
+$\psi\neq1$ implies (REL). Weil gives only
+$|A_\psi|\leq(\ell-1)2^{\lceil n/2\rceil}$, a factor $4(\ell-1)$ short; the
+random model predicts $|A_\psi|\approx2^{(n-a+1)/2}\sqrt\ell$. Exact
+computation for $12\leq\ell\leq24$ at both endpoints matches that prediction
+within $8\%$ and finds (CYL) true from $\ell=16$ ($n$ odd) and $\ell=18$ ($n$
+even) on, $\max_\psi|A_\psi|/2^{\ell-1}$ falling to $0.09$ and $0.15$ at
+$\ell=24$, and likewise for all $2^{a-1}$ translated cylinders from
+$\ell=20$. This is finite evidence, not a proof. It does resist the one
+disproof route available at fixed $q$: since $|K|<8\ell$, a Plancherel
+forcing argument gains at most $\sqrt{8\ell}$ against a root-mean-square that
+is $\Theta(\ell2^{-\ell/2})$ of the threshold, and no $A_\psi$ vanishes at any
+computed endpoint (for $\ell=23$, $n=47$ the total mass is odd, which forces
+it).
 
-\textbf{A second sufficient statement.} Let $K=\ker(\E_\ell\to\E_{a-1})$,
-an elementary abelian group of order $2^{\ell-a+1}$ (since $a>\ell/2$), and
-for a character $\psi$ of $K$ let
-\[
- A_\psi=\sum_{\substack{F\text{ monic},\ \deg F=n\\ \langle F\rangle_{a-1}=1}}
- \Lambda(F)\,\psi(\langle F\rangle_\ell)
-\]
-be the prime mass of the cylinder $\{x^n+g:\deg g\leq n-a\}$ twisted by a
-sign pattern of the coefficients of $x^{n-a},\dots,x^{n-\ell}$. Fourier
-inversion on $K$ gives
-$|N_\ell(1)-N_{a-1}(1)/|K||\leq\max_{\psi\neq1}|A_\psi|$, and
-$2^\ell N_{a-1}(1)/|K|=2^{a-1}N_{a-1}(1)$, while
-$B_{\ell,n}\geq2^{2\ell-1}$ because $a-3<\ell\leq2^c$. Hence
-\begin{equation*}\tag{CYL}
- |A_\psi|<2^{\ell-1}\quad\text{for every }\psi\neq1
-\end{equation*}
-implies (REL). The Weil bound gives only $|A_\psi|\leq(\ell-1)2^{\lceil n/2\rceil}$,
-a factor $4(\ell-1)$ short; the random model predicts
-$|A_\psi|\approx2^{(n-a+1)/2}\sqrt{\ell}$. Exact computation for
-$12\leq\ell\leq24$ at both endpoints finds the root-mean-square of $A_\psi$
-equal to that prediction within $8\%$, (CYL) true from $\ell=16$ ($n$ odd)
-and $\ell=18$ ($n$ even) on, with $\max_\psi|A_\psi|/2^{\ell-1}$ falling to
-$0.09$ and $0.15$ at $\ell=24$, and the same bound true for every one of the
-$2^{a-1}$ translated cylinders from $\ell=20$ on. This is finite evidence,
-not a proof, and it is the smallest statement currently known to close the
-chain. It also resists the one disproof route available at fixed $q$: since
-$|K|<8\ell$, a Plancherel forcing argument (large vanishing locus $\Rightarrow$
-forced large value) gains at most $\sqrt{8\ell}$ against a root-mean-square that
-is $\Theta(\ell 2^{-\ell/2})$ of the threshold, so it cannot contradict (CYL);
-and no $A_\psi$ vanishes at any computed endpoint (for $\ell=23$, $n=47$ the
-total mass is odd, which forces this).
-
-\textbf{The geometric face of (HWO), re-posed (\proved\ reductions; \openstatus\ core).}
-By Katz the characters of exact conductor $j$ are the $\F_2$-points of
-$\mathrm{Prim}_j\cong\mathbb{G}_m\times\mathbb{A}^{j-1}$, carrying a lisse
+\textbf{The geometric face, re-posed.} By Katz the characters of exact
+conductor $j$ are the $\F_2$-points of
+$\mathrm{Prim}_j\cong\mathbb G_m\times\mathbb A^{j-1}$, carrying a lisse
 $L_{\mathrm{univ}}$ of rank $j-1$ whose Frobenius traces are the $S_n(\chi)$;
-the conductor-$j$ sum is a Lefschetz trace of the Adams twist $\Xi_n(L_{\mathrm{univ}})$.
-Deligne's weight bounds then show that a bound on the sum of Betti numbers
-\emph{alone} can never give (HWO): with the top cohomology present one would
-need a Betti sum below $1/4$. What is needed is a \emph{degree} statement ---
-the top $\approx 6+2\log_2 C$ cohomology groups must vanish --- together with a
-Betti bound $\lesssim 2^{j/2}$. Two facts narrow this sharply. The geometric
-monodromy contains $SL(j-1)$ for every $j\ge4$ in characteristic two (Katz,
-IMRN 2013, Thm.~5.1; $j=3$ is finite, Gorodetsky 2019), which forces
-$H^{2j}_c=0$ for $j\ge4$; and exact computation over $\F_{2^r}$ of every
-resolvable cell with $j\ge4$ (an exact $L$-function engine in $\mathbb{Z}[\zeta_8]$,
-$j\le7$) finds the top weight at $n+j+O(1)$, never $n+2j-O(1)$, while the
-$\F_2$ layer sums at $\ell=24$ sit at the same size. The remaining gap is the
-characteristic-two case of Sawin's Hypothesis~$H$ (arXiv:1810.01303), whose
-only unconditional input is vacuous at $p=2$, plus a uniform Betti bound
-($2^{O(j\log j)}$ is the best known). Finite evidence says this route is open,
-not closed.
+the conductor-$j$ sum is a Lefschetz trace of the Adams twist
+$\Xi_n(L_{\mathrm{univ}})$. Deligne's weight bounds show that a bound on the
+sum of Betti numbers \emph{alone} can never give (HWO): with the top
+cohomology present one would need a Betti sum below $1/4$. What is needed is a
+\emph{degree} statement --- the top $\approx6+2\log_2C$ cohomology groups must
+vanish --- together with a Betti bound $\lesssim2^{j/2}$. Two facts narrow
+this. Geometric monodromy contains $SL(j-1)$ for every $j\geq4$ in
+characteristic two (Katz, IMRN 2013, Thm.~5.1; $j=3$ is finite, Gorodetsky
+2019), which forces $H^{2j}_c=0$ for $j\geq4$; and an exact $L$-function
+computation over $\F_{2^r}$ ($j\leq7$) puts the top weight at $n+j+O(1)$,
+never $n+2j-O(1)$, matching the $\F_2$ layer sums at $\ell=24$. The residual
+gap is the characteristic-two case of Sawin's Hypothesis~H
+(arXiv:1810.01303), whose only unconditional input is vacuous at $p=2$, plus
+a uniform Betti bound ($2^{O(j\log j)}$ is the best known).
 
-\textbf{Why the usual bounds fail.}
-Taking absolute values for each character or conductor loses too much.
-Bounds that use only the Fourier support give no saving at all. Cauchy's
-inequality, the tested bent and Kerdock models, and simple Heisenberg lifts
-also fail. Known moment theorems over large finite fields are not uniform in
-this fixed-field, growing-conductor setting. We need a bound that keeps the
-high-order character sums together. Another table of small cases will not
-provide it. Nor can generic invariants of the relevant $L$-functions: for the
-product $P_\psi$ of the $L$-polynomials over a coset of low-conductor twists,
-degree, integrality, the Riemann hypothesis, the functional equation, the
-$2$-adic Newton polygon and all power sums of degree below $n$ are preserved
-by multiplication with powers of $1-2^{(n+1)/2}T^n+2^nT^{2n}$, which drives
-the $n$th power sum to about $0.7$ of its trivial bound; only the specific
-arithmetic of the Hayes characters can supply the saving. On the integer side
-the best single-residue exponent for prime-power moduli is $2.1115$
-(Banks--Shparlinski), and asymptotics at $q^2$ are known only under GRH with a
-pair-correlation hypothesis.
+\section{What is provably blocked}
+
+Four barriers are proved, and they explain why the factor $\ell$ survives every
+elementary attack. \emph{Moduli-only:} an explicit nonnegative fake population
+has the true low-conductor Fourier data, all high moduli inside Weil, second
+moment below the truth, and an empty identity class. \emph{Symmetry:} every
+degree-preserving symmetry lies in $PGL_2(\F_2)$, only the Borel descends to
+$\E_\ell$, and the orbit of the identity class under all structural symmetries
+has size at most $2$. \emph{Construction:} provably irreducibility-preserving
+constructions multiply the degree, so window families are lacunary and none
+ever reaches a prime $n$ --- though monomial substitution
+$f\mapsto f(x^t)$ never leaves the window
+($f(x^t)-x^{mt}=(f-x^m)(x^t)$), so by Lidl--Niederreiter Thm.~3.35 every
+in-window seed of degree $m$ and order $e$ gives in-window irreducibles of
+degree $mt$ whenever every prime of $t$ divides $e$ but not $(2^m-1)/e$; from
+the certified seeds this reaches $9.3\%$ of composite $n\leq10^5$, and the
+case $m=2$ (Je\v{r}\'abek, 2011) is $n=2\cdot3^k$. \emph{Parity:} the window
+has exact level of distribution $|W_n|$ with zero remainder, which yields an
+element with all irreducible factors of degree $>(\frac14-\varepsilon)n$ and,
+with Kuhn weights, one with at most three such factors --- but for
+$10\leq n\leq15$ there is an explicit nonnegative rational population with the
+window's exact divisor data and no irreducible in its support, so no
+lower-bound sieve at that level can produce a prime; and any such certificate
+applies to every window, hence would prove Legendre for $\F_2[t]$.
+
+Over $\F_q$ the conjecture is a theorem once $q$ is large: $q>(n+1)^2/4$
+suffices (Hsu; Cohen), and $q>7101p^2$ suffices for all large $n$ when $p$ is
+odd (Bagshaw, arXiv:2401.10399, Cor.~2.5, via the reversal duality) --- a
+threshold independent of $n$, but one that excludes characteristic two, every
+prime field, and every $q=p^2$. The conjecture is open precisely because
+$q=2$ is fixed.
 
 \section*{References}
 \small
@@ -380,6 +296,22 @@ replayable diagnostics}, 2026, \url{https://github.com/mjbommar/axeyum}.
 \item M. Bommarito, \emph{Almost all half-degree patterns are realized by an
 irreducible over $\F_2$}, companion note, 2026 (\texttt{lemire-almost-all.pdf}
 in this repository).
+\item M. Bommarito, \emph{Half-degree irreducibles over $\F_2$: barriers,
+negative results, and what to try next}, companion document, 2026
+(\texttt{lemire-barriers.pdf} in this repository). Proofs of the barriers
+summarised in \S5, the full record of what has been tried, and the open
+routes.
+\item S. D. Cohen, ``Primitive polynomials with a prescribed coefficient,''
+\emph{Finite Fields Appl.} 11 (2005), 337--357; C.-N. Hsu, ``The distribution
+of irreducible polynomials in $\F_q[t]$,'' \emph{J. Number Theory} 61 (1996),
+85--96.
+\item O. Gorodetsky, ``Irreducible polynomials over $\F_{2^r}$ with three
+prescribed coefficients,'' \emph{Finite Fields Appl.} 56 (2019), 150--187.
+\item W. Sawin, ``A representation theory approach to integral moments of
+$L$-functions over function fields,'' \emph{Algebra Number Theory} 14 (2020),
+867--902; arXiv:1810.01303.
+\item R. Lidl and H. Niederreiter, \emph{Finite Fields}, 2nd ed., Encyclopedia
+of Mathematics and its Applications 20, Cambridge Univ. Press, 1997.
 \end{enumerate}
 
 \end{document}

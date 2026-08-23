@@ -1,8 +1,9 @@
 BUILD := build
 TEX := paper/main.tex
 NOTE := paper/almost-all.tex
+BARRIERS := paper/barriers.tex
 
-.PHONY: pdf almost-all clean check check-note
+.PHONY: pdf almost-all barriers clean check check-note check-barriers
 
 pdf:
 	mkdir -p $(BUILD)
@@ -15,8 +16,8 @@ almost-all:
 		-output-directory=$(abspath $(BUILD)) $(NOTE)
 
 check: pdf
-	@test "$$(pdfinfo $(BUILD)/main.pdf | awk '/^Pages:/ {print $$2}')" -le 5 || \
-		{ echo "paper exceeds five pages"; exit 1; }
+	@test "$$(pdfinfo $(BUILD)/main.pdf | awk '/^Pages:/ {print $$2}')" -le 3 || \
+		{ echo "note exceeds three pages"; exit 1; }
 	@! grep -E 'LaTeX Warning: (Reference|Citation).*undefined|There were undefined references' \
 		$(BUILD)/main.log
 
@@ -25,6 +26,15 @@ check-note: almost-all
 		{ echo "note exceeds four pages"; exit 1; }
 	@! grep -E 'LaTeX Warning: (Reference|Citation).*undefined|There were undefined references' \
 		$(BUILD)/almost-all.log
+
+barriers:
+	mkdir -p $(BUILD)
+	latexmk -pdf -interaction=nonstopmode -halt-on-error \
+		-output-directory=$(abspath $(BUILD)) $(BARRIERS)
+
+check-barriers: barriers
+	@! grep -E 'LaTeX Warning: (Reference|Citation).*undefined|There were undefined references' \
+		$(BUILD)/barriers.log
 
 clean:
 	rm -rf $(BUILD)
