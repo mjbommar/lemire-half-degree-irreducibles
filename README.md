@@ -27,6 +27,45 @@ irreducible factors each of large degree; and the conjecture is a theorem over
 construction, and parity — each ruling out a class of argument, and the
 geometric route has been re-posed as a precise cohomological-degree question.
 
+## What this means in practice
+
+The conjecture came from a performance question — Barrett reduction in
+`GF(2^L)` is cheaper when the reduction polynomial's non-leading terms are
+low-degree — so it is worth stating plainly what the mathematics says to
+someone choosing a field representation.
+
+**The truth is far stronger than the conjecture, so practice never needed it.**
+The conjecture permits junk up to degree `L/2`. Measured (independent search,
+479 degrees to `L = 3000`), the *minimum* achievable is about `log_2 L`:
+
+| `L` | 64 | 128 | 163 | 233 | 256 | 283 | 409 | 512 | 571 | 1024 | 2000 | 3000 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| minimal subdegree | 4 | **7** | 7 | 7 | 10 | 8 | 7 | 8 | 10 | 9 | 13 | 11 |
+| conjecture allows | 32 | 64 | 81 | 116 | 128 | 141 | 204 | 256 | 285 | 512 | 1000 | 1500 |
+
+AES-GCM's `x^128 + x^7 + x^2 + x + 1` has subdegree 7, which this table
+confirms is optimal for `L = 128`. Standard choices already sit at the true
+minimum, roughly two orders of magnitude better than the conjecture's promise.
+**Proving Kaser--Lemire would not improve any deployed system.**
+
+**The constraint that actually binds is Swan's theorem, not this conjecture.**
+For `L = 0 mod 8` there is no irreducible *trinomial* at all, at any
+subdegree — and that is exactly the set of sizes in use (64, 128, 256, 512,
+1024, 2048). This is why GCM uses a pentanomial; it is forced, not chosen. If
+you are free to pick `L` and want a trinomial, avoid multiples of 8.
+
+**The infinite families here are the wrong tool for the job.** They produce
+irreducibles of subdegree exactly `L/2` — the largest the conjecture permits,
+i.e. the worst admissible case for reduction. They are mathematically the
+point and practically the opposite of what you want.
+
+**Searching is cheap anyway.** Irreducibles have density `1/L`, so a random
+in-window candidate succeeds in `O(L)` tries and testing is fast; the
+certified table through `L = 3000` covers every realistic size with an
+explicit certificate. Finally, the reduction polynomial is a performance
+choice only — all representations of `GF(2^L)` are isomorphic — so nothing
+here bears on the security of anything.
+
 ## Documents
 
 | | |

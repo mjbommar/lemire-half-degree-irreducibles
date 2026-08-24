@@ -2037,6 +2037,78 @@ all $n$. A proof must be uniform in $\ell$, genuinely characteristic-two,
 applicable to a prime-power modulus, and first-moment --- not a variance bound,
 which the data show is already at the random value and $40\times$ short.
 
+\section{What this says to the application}\label{sec:applied}
+
+The conjecture originates in a performance question, so it is worth recording
+what the mathematics says to someone choosing a representation of
+$\F_2[x]/(f)$. The short answer is that the applied problem was never blocked
+on the conjecture, and proving it would not change any deployed system.
+
+\subsection{The truth is far stronger than the conjecture}
+
+Kaser--Lemire asks for subdegree $\le\lfloor L/2\rfloor$. The \emph{minimum}
+achievable subdegree, measured by an independent search over 479 degrees
+(every $L\le400$, then to $L=3000$; \S\ref{sec:method} records the checker),
+is about $\log_2 L$:
+
+\begin{center}\small
+\begin{tabular}{lrrrrrrrrrrrr}
+\hline
+$L$ & 64 & 128 & 163 & 233 & 256 & 283 & 409 & 512 & 571 & 1024 & 2000 & 3000\\
+minimal subdegree & 4 & 7 & 7 & 7 & 10 & 8 & 7 & 8 & 10 & 9 & 13 & 11\\
+conjecture allows & 32 & 64 & 81 & 116 & 128 & 141 & 204 & 256 & 285 & 512 & 1000 & 1500\\
+\hline
+\end{tabular}
+\end{center}
+
+Over the whole sampled range $s_{\min}(L)\le13$, with
+$s_{\min}(L)/\log_2 L$ in $[0.10,1.40]$ and mean $0.857$; the window bound is
+attained with equality at exactly $L=2,3,5,8$ and nowhere else. A useful
+calibration point: AES-GCM reduces by $x^{128}+x^7+x^2+x+1$, of subdegree $7$,
+which the table confirms is optimal at $L=128$. Deployed choices already sit
+at the true minimum, roughly two orders of magnitude inside what the
+conjecture guarantees.
+
+Two consequences. First, \textbf{proving the conjecture would give practice
+nothing}: it is a weaker statement than what tables and search already
+deliver. Second, and more interesting for \S\ref{sec:whatmight}, the
+conjecture is not a tight fact that the method narrowly misses --- it is a
+very loose fact sitting just outside the method's reach. The gap between
+$\log_2 L$ (truth) and $L/2$ (conjecture) is enormous; the gap between $L/2$
+(conjecture) and $L/2+\log_2 L$ (Hayes--Weil) is one logarithm. The difficulty
+is entirely an artefact of where the square-root barrier falls, not of the
+arithmetic being delicate.
+
+\subsection{The binding constraint is Swan's theorem}
+
+For $L\equiv0\bmod 8$ there is no irreducible \emph{trinomial} of degree $L$
+at all, at any subdegree (Swan). That is precisely the set of sizes in
+practical use --- $64,128,256,512,1024,2048$ --- which is why GCM uses a
+pentanomial rather than a trinomial: it is forced, not chosen. Our witness
+data reflects it: of $L\in[2,200]$, $80$ admit no half-degree irreducible
+trinomial, and $25$ of those are $\equiv0\bmod 8$. For an implementer free to
+choose $L$ who wants trinomial reduction, the rule is to avoid multiples of
+eight; that constraint comes from Swan and is unrelated to the conjecture.
+
+\subsection{The infinite families are the wrong tool}
+
+Theorem~\ref{thm:family} and its cyclotomic special case produce irreducibles of
+subdegree \emph{exactly} $L/2$ --- the largest value the conjecture permits,
+hence the worst admissible case for Barrett reduction. They are the
+mathematical point of \S\ref{sec:proved} and practically the opposite of what
+an implementer wants. Anyone reaching for an explicit construction should use
+the certified tables instead.
+
+\subsection{Search is cheap, and none of this is a security question}
+
+Irreducibles of degree $L$ have density $1/L$, so a random in-window candidate
+succeeds in $O(L)$ trials and each trial is a fast irreducibility test; the
+certified handoff through $L=3000$ covers every realistic size with an
+explicit certificate that an independent checker re-verifies. Finally, all
+representations of $\F_{2^L}$ are isomorphic, so the reduction polynomial is a
+performance parameter only: nothing in this document bears on the security of
+any construction built over such a field.
+
 \section{Methodology}\label{sec:method}
 
 \emph{This section is about how the work was done, not about the mathematics. A
